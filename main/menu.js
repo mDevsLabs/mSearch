@@ -81,7 +81,7 @@ function buildAppMenu (options = {}) {
 
   var quitAction = {
     label: l('appMenuQuit').replace('%n', app.name),
-    accelerator: getFormattedKeyMapEntry('quitMin'),
+    accelerator: getFormattedKeyMapEntry('quitmSearch'),
     click: function (item, window, event) {
       if (!event.triggeredByAccelerator) {
         app.quit()
@@ -94,7 +94,7 @@ function buildAppMenu (options = {}) {
     accelerator: 'CmdOrCtrl+,',
     click: function (item, window) {
       sendIPCToWindow(window, 'addTab', {
-        url: 'min://app/pages/settings/index.html'
+        url: 'msearch://app/pages/settings/index.html'
       })
     }
   }
@@ -448,7 +448,7 @@ function buildAppMenu (options = {}) {
           label: l('appMenuAbout').replace('%n', app.name),
           click: function (item, window) {
             var info = [
-              'Min v' + app.getVersion(),
+              'mSearch v' + app.getVersion(),
               'Chromium v' + process.versions.chrome
             ]
             electron.dialog.showMessageBox({
