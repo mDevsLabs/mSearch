@@ -20,7 +20,7 @@ const {
 } = electron
 
 crashReporter.start({
-  submitURL: 'https://minbrowser.org/',
+  submitURL: 'https://mSearch.org/',
   uploadToServer: false,
   compress: true
 })
@@ -175,7 +175,7 @@ function createWindow (customArgs = {}) {
 
   // make the bounds fit inside a currently-active screen
   // (since the screen mSearch was previously open on could have been removed)
-  // see: https://github.com/minbrowser/min/issues/904
+  // see: https://github.com/mSearch/min/issues/904
   var containingRect = electron.screen.getDisplayMatching(bounds).workArea
 
   bounds = {
@@ -306,7 +306,7 @@ function createWindowWithBounds (bounds, customArgs) {
 
   newWin.on('leave-full-screen', function () {
     sendIPCToWindow(newWin, 'leave-full-screen')
-    // https://github.com/minbrowser/min/issues/1093
+    // https://github.com/mSearch/min/issues/1093
     newWin.setMenuBarVisibility(false)
   })
 
@@ -316,7 +316,7 @@ function createWindowWithBounds (bounds, customArgs) {
 
   newWin.on('leave-html-full-screen', function () {
     sendIPCToWindow(newWin, 'leave-html-full-screen')
-    // https://github.com/minbrowser/min/issues/952
+    // https://github.com/mSearch/min/issues/952
     newWin.setMenuBarVisibility(false)
   })
 

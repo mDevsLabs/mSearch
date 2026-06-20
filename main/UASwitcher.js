@@ -1,5 +1,5 @@
 /* Use the same user agent as Chrome to improve site compatibility and increase fingerprinting resistance
-see https://github.com/minbrowser/min/issues/657 for more information */
+see https://github.com/mSearch/min/issues/657 for more information */
 
 const defaultUserAgent = app.userAgentFallback
 let hasCustomUserAgent = false
@@ -44,7 +44,7 @@ function getFirefoxUA () {
 
 /*
 Google blocks signin in some cases unless a custom UA is used
-see https://github.com/minbrowser/min/issues/868
+see https://github.com/mSearch/min/issues/868
 */
 function enableGoogleUASwitcher (ses) {
   ses.webRequest.onBeforeSendHeaders((details, callback) => {

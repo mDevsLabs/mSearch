@@ -132,7 +132,7 @@ function waitForInstallerComplete () {
   })
 }
 
-// Install the tool into the Min user folder.
+// Install the tool into the mSearch user folder.
 function install (filePath, callback) {
   return new Promise((resolve, reject) => {
     try {

@@ -85,7 +85,7 @@ const sessionRestore = {
         tasks.setSelected(tasks.add()) // create a new task
 
         var newTab = tasks.getSelected().tabs.add({
-            url: 'https://minbrowser.github.io/min/tour'
+            url: 'https://mSearch.github.io/min/tour'
         })
         browserUI.addTab(newTab, {
          enterEditMode: false
@@ -146,7 +146,7 @@ const sessionRestore = {
       /* Disabled - show user survey
       // if this isn't the first run, and the survey popup hasn't been shown yet, show it
       if (shouldShowSurvey) {
-        fetch('https://minbrowser.org/survey/survey15.json').then(function (response) {
+        fetch('https://mSearch.org/survey/survey15.json').then(function (response) {
           return response.json()
         }).then(function (data) {
           setTimeout(function () {

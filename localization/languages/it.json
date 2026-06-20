@@ -131,7 +131,7 @@
     "sessionRestoreErrorExplanation": "Impossibile recuperare le schede precedentemente aperte.",
     "sessionRestoreErrorBackupInfo": "mSearch ha salvato un backup dei tuoi dati in: %l.", //%l will be replaced with a path to a file
     "sessionRestoreErrorLinkInfo": {
-      "unsafeHTML": "Se questo errore persiste, apri un nuovo issue <a href=\"https://github.com/minbrowser/min\" target=\"_blank\">qui</a>."
+      "unsafeHTML": "Se questo errore persiste, apri un nuovo issue <a href=\"https://github.com/mSearch/min\" target=\"_blank\">qui</a>."
     },
     /* pages/settings/index.html */
     "settingsPreferencesHeading": "Impostazioni",
@@ -167,13 +167,13 @@
     "settingsAutoplayToggle": "Abilita Autoplay",
     "settingsOpenTabsInForegroundToggle": "Apri nuove schede in primo piano",
     "settingsUserscriptsExplanation": {
-      "unsafeHTML": "Gli script definiti dall'utente ti permettono di modificare il comportamento dei siti - <a href=\"https://github.com/minbrowser/min/wiki/userscripts\">scopri di più</a>."
+      "unsafeHTML": "Gli script definiti dall'utente ti permettono di modificare il comportamento dei siti - <a href=\"https://github.com/mSearch/min/wiki/userscripts\">scopri di più</a>."
     },
     "settingsUserscriptShowDirectory": null, //missing translation,
     "settingsUserAgentToggle": "Utilizza un user agent personalizzato",
     "settingsUpdateNotificationsToggle": "Controlla automaticamente la presenza di aggiornamenti",
     "settingsUsageStatisticsToggle": {
-      "unsafeHTML": "Invia statistiche di utilizzo (<a href=\"https://github.com/minbrowser/min/blob/master/docs/statistics.md\">Maggiori informazioni</a>)"
+      "unsafeHTML": "Invia statistiche di utilizzo (<a href=\"https://github.com/mSearch/min/blob/master/docs/statistics.md\">Maggiori informazioni</a>)"
     },
     "settingsStartupOptions": null, //missing translation
     "settingsStartupCreateTask": null, //missing translation

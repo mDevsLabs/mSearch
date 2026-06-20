@@ -41,7 +41,7 @@ async function afterPackageBuilt (packagePath) {
     dest: 'dist/app/msearch-installer' + archSuffix,
     icon: 'icons/icon256.ico',
     animation: 'icons/windows-installer.gif',
-    licenseUrl: 'https://github.com/minbrowser/min/blob/master/LICENSE.txt',
+    licenseUrl: 'https://github.com/mSearch/min/blob/master/LICENSE.txt',
     noMsi: true
   }
 

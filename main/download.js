@@ -81,7 +81,7 @@ function listenForDownloadHeaders (ses) {
       }
 
       // whether this is a file being viewed in-browser or a page
-      // Needed to save files correctly: https://github.com/minbrowser/min/issues/1717
+      // Needed to save files correctly: https://github.com/mSearch/min/issues/1717
       // It doesn't make much sense to have this here, but only one onHeadersReceived instance can be created per session
       const isFileView = typeHeader instanceof Array && !typeHeader.some(t => t.includes('text/html'))
 
