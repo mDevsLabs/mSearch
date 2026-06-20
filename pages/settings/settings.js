@@ -1,4 +1,4 @@
-document.title = l('settingsPreferencesHeading') + ' | Min'
+document.title = l('settingsPreferencesHeading') + ' | mSearch'
 
 var contentTypeBlockingContainer = document.getElementById('content-type-blocking')
 var banner = document.getElementById('restart-required-banner')
@@ -106,7 +106,7 @@ trackingLevelOptions.forEach(function (item, idx) {
 blockingExceptionsInput.addEventListener('input', function () {
   setExceptionInputSize()
 
-  // remove protocols because of https://github.com/minbrowser/min/issues/1428
+  // remove protocols because of https://github.com/mSearch/min/issues/1428
   var newValue = this.value.split(',').map(i => i.trim().replace('http://', '').replace('https://', '')).filter(i => !!i)
 
   settings.get('filtering', function (value) {

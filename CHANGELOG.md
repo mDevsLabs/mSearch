@@ -3,7 +3,7 @@
 ## [0.4.0] - 2026-06-19
 
 ### Ajouts et Modifications Majeures (Rebranding mSearch)
-- **Rebranding complet :** Le navigateur Min a été officiellement renommé en **mSearch**.
+- **Rebranding complet :** Le navigateur mSearch a été officiellement renommé en **mSearch**.
 - **Mise à jour des textes :** Remplacement de "A fast, minimal browser that protects your privacy" par "Avec mSearch, recherchez en toute sécurité !".
 - **Modification du protocole interne :** Les URL utilisant `min://` ont été migrées vers `msearch://`.
 - **Mise à jour des liens externes :** 

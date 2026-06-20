@@ -127,7 +127,7 @@ const webviews = {
   },
   emitEvent: function (event, tabId, args) {
     if (!webviews.hasViewForTab(tabId)) {
-      // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/minbrowser/min/issues/604#issuecomment-419653437
+      // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/mSearch/min/issues/604#issuecomment-419653437
       return
     }
     webviews.events.forEach(function (ev) {
@@ -208,7 +208,7 @@ const webviews = {
       if (tabData.url) {
         ipc.send('loadURLInView', { id: tabData.id, url: urlParser.parse(tabData.url) })
       } else if (tabData.private) {
-        // workaround for https://github.com/minbrowser/min/issues/872
+        // workaround for https://github.com/mSearch/min/issues/872
         ipc.send('loadURLInView', { id: tabData.id, url: urlParser.parse('msearch://newtab') })
       }
     }
@@ -500,7 +500,7 @@ ipc.on('async-call-result', function (e, args) {
 
 ipc.on('view-ipc', function (e, args) {
   if (!webviews.hasViewForTab(args.id)) {
-    // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/minbrowser/min/issues/604#issuecomment-419653437
+    // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/mSearch/min/issues/604#issuecomment-419653437
     return
   }
   webviews.IPCEvents.forEach(function (item) {
