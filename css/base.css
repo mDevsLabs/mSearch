@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-size: 16px;
-  font-family: ".SFNSText-Regular", "BlinkMacSystemFont", "Helvetica Neue",
-    "Segoe UI", "Arial", sans-serif;
+  font-family: "Inter", "BlinkMacSystemFont", "Helvetica Neue", "Segoe UI", "Arial", sans-serif;
 }
 /* TODO figure out why the default focus color in Electron is orange */
 *:focus {
