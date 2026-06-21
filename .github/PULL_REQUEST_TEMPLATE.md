@@ -19,18 +19,19 @@
 
 ## 📂 Dossier
 
-- [ ] docs
-- [x] src
-- [ ] packages
-- [ ] desktop
 - [ ] .github
-- [ ] public
-- [ ] tests
-- [ ] plugins
-- [ ] locales
-- [ ] e2e
-- [ ] .agents
+- [ ] css
+- [ ] ext
+- [ ] icons
+- [ ] js
+- [ ] localization
+- [ ] main
+- [ ] pages
+- [ ] reader
+- [ ] resources
+- [ ] scripts
 - [ ] autre
+
 
 ## 🔗 Issue Liée
 
