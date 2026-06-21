@@ -1,9 +1,10 @@
-name: Build Package
+name: 📦 Construction des Paquets
 on:
   workflow_dispatch:
   push:
     branches:
       - canary
+      - main
   pull_request:
 jobs:
   build:
@@ -43,10 +44,11 @@ jobs:
       with:
         node-version: 20
     - run: npm install --omit=optional
-    - name: build package
+    - name: 🔨 Construction du paquet
       run: ${{ matrix.cmd }}
-    - name: upload package
+    - name: 📤 Téléversement du paquet
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact }}
         path: ${{ matrix.path }}
+

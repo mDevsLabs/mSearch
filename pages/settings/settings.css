@@ -37,10 +37,36 @@ html {
 .settings-container {
   max-width: 1000px;
   margin: 2.25em auto;
-  padding: 0 1em;
+  padding: 2em;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.settings-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+body.dark-mode .settings-container {
+  background: rgba(30, 30, 30, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
 .settings-container .setting-option + .setting-option {
   margin: 0.5em 0;
+}
+
+input, select, textarea, button {
+  transition: all 0.2s ease-in-out;
+}
+input[type="checkbox"], input[type="radio"] {
+  accent-color: #507ac4;
+  transform: scale(1.15);
+  cursor: pointer;
 }
 
 .setting-section {

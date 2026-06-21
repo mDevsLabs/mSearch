@@ -371,6 +371,20 @@ userAgentInput.addEventListener('input', function (e) {
   showRestartRequiredBanner()
 })
 
+/* mAI sidebar setting */
+
+var maiSidebarCheckbox = document.getElementById('checkbox-mai-sidebar')
+
+settings.get('enableMaiSidebar', function (value) {
+  if (value === true) {
+    maiSidebarCheckbox.checked = true
+  }
+})
+
+maiSidebarCheckbox.addEventListener('change', function (e) {
+  settings.set('enableMaiSidebar', this.checked)
+})
+
 /* update notifications setting */
 
 var updateNotificationsCheckbox = document.getElementById('checkbox-update-notifications')
