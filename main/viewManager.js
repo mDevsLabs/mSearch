@@ -264,21 +264,31 @@ function destroyAllViews () {
   }
 }
 
-function setView (id, senderContents) {
+function setView (id, senderContents, secondId) {
   const win = windows.windowFromContents(senderContents).win
 
-  // changing views can cause flickering, so we only want to call it if the view is actually changing
-  // see https://github.com/mSearch/min/issues/1966
-  if (windows.getState(win).selectedView !== viewMap[id]) {
-    //remove all prior views
-    win.getContentView().children.slice(1).forEach(child => win.getContentView().removeChildView(child))
-    if (viewStateMap[id].loadedInitialURL) {
-      win.getContentView().addChildView(viewMap[id])
-    } else {
-      win.getContentView().removeChildView(viewMap[id])
+  // remove prior views except the ones we want to keep
+  win.getContentView().children.slice(1).forEach(child => {
+    if (child !== viewMap[id] && (!secondId || child !== viewMap[secondId])) {
+      win.getContentView().removeChildView(child)
     }
-    windows.getState(win).selectedView = id
+  })
+
+  // add primary view
+  if (viewStateMap[id] && viewStateMap[id].loadedInitialURL) {
+    if (!win.getContentView().children.includes(viewMap[id])) {
+      win.getContentView().addChildView(viewMap[id])
+    }
   }
+
+  // add second view if present
+  if (secondId && viewMap[secondId] && viewStateMap[secondId] && viewStateMap[secondId].loadedInitialURL) {
+    if (!win.getContentView().children.includes(viewMap[secondId])) {
+      win.getContentView().addChildView(viewMap[secondId])
+    }
+  }
+
+  windows.getState(win).selectedView = id
 }
 
 function setBounds (id, bounds) {
@@ -341,8 +351,11 @@ ipc.on('destroyAllViews', function () {
 })
 
 ipc.on('setView', function (e, args) {
-  setView(args.id, e.sender)
+  setView(args.id, e.sender, args.secondId)
   setBounds(args.id, args.bounds)
+  if (args.secondId && args.secondBounds) {
+    setBounds(args.secondId, args.secondBounds)
+  }
   if (args.focus && BrowserWindow.fromWebContents(e.sender) && BrowserWindow.fromWebContents(e.sender).isFocused()) {
     const couldFocus = focusView(args.id)
     if (!couldFocus) {
@@ -353,6 +366,9 @@ ipc.on('setView', function (e, args) {
 
 ipc.on('setBounds', function (e, args) {
   setBounds(args.id, args.bounds)
+  if (args.secondId && args.secondBounds) {
+    setBounds(args.secondId, args.secondBounds)
+  }
 })
 
 ipc.on('focusView', function (e, id) {

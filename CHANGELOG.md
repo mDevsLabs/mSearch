@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.0] - 2026-06-24
+
+### Ajouts et Améliorations
+- 📁 **Paramètre de téléchargement** : Ajout d'une option pour choisir le dossier de téléchargement par défaut.
+- 🚀 **Performances** : Ajout d'un bouton pour activer ou désactiver l'accélération matérielle.
+- 📖 **Fonctionnalité Mode Lecture** : Ajout d'une option "Mode Lecture" pour nettoyer les pages web et se concentrer sur le texte.
+- 🎨 **Thèmes personnalisés** : Ajout de la possibilité de créer ses propres thèmes de couleurs.
+- 🤖 **Amélioration de mAI** : Nouvelles options pour configurer l'assistant mAI (Barre latérale).
+- 📂 **Espaces de travail (Workspaces)** : Ajout d'une option pour activer les espaces de travail pour organiser les onglets.
+- 🌗 **Vue Scindée (Split View)** : Ajout d'une option pour scinder la vue et afficher deux onglets côte à côte.
+- 📺 **Mini-lecteur Vidéo (Picture-in-Picture)** : Ajout d'une option pour lancer automatiquement le lecteur vidéo au changement d'onglet.
+- 🥷 **Filtre Anti-Traqueurs Avancé (Privacy Dashboard)** : Ajout d'une option pour activer le tableau de bord de confidentialité anti-traqueurs.
+
 ## [0.9.0] - 2026-06-21
 
 ### Ajouts et Améliorations
