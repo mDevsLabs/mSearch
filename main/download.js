@@ -1,8 +1,8 @@
-const currrentDownloadItems = {}
+const currentDownloadItems = {}
 
 ipc.on('cancelDownload', function (e, path) {
-  if (currrentDownloadItems[path]) {
-    currrentDownloadItems[path].cancel()
+  if (currentDownloadItems[path]) {
+    currentDownloadItems[path].cancel()
   }
 })
 
@@ -32,7 +32,7 @@ function downloadHandler (event, item, webContents) {
     }
 
     if (item.getSavePath()) {
-      currrentDownloadItems[item.getSavePath()] = item
+      currentDownloadItems[item.getSavePath()] = item
     }
 
     sendIPCToWindow(sourceWindow, 'download-info', {
@@ -44,7 +44,7 @@ function downloadHandler (event, item, webContents) {
   })
 
   item.once('done', function (e, state) {
-    delete currrentDownloadItems[item.getSavePath()]
+    delete currentDownloadItems[item.getSavePath()]
     sendIPCToWindow(sourceWindow, 'download-info', {
       path: item.getSavePath(),
       name: savePathFilename,

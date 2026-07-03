@@ -1,3 +1,6 @@
+const electron = require('electron')
+const { ipcMain: ipc, Menu, MenuItem } = electron
+
 ipc.on('open-context-menu', function (e, data) {
   var menu = new Menu()
 
