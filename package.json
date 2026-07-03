@@ -1,9 +1,9 @@
 {
-  "name": "min",
-  "productName": "Min",
-  "author": "PalmerAL",
-  "version": "1.35.5",
-  "description": "A fast, minimal browser that protects your privacy",
+  "name": "msearch",
+  "productName": "mSearch",
+  "author": "mDevlopers",
+  "version": "1.0.0",
+  "description": "Avec mSearch, recherchez en toute sécurité !",
   "electronVersion": "41.2.0",
   "main": "main.build.js",
   "standard": {
@@ -86,6 +86,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/minbrowser/min.git"
+    "url": "https://github.com/mDevsLabs/mSearch.git"
   }
 }

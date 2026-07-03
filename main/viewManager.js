@@ -89,7 +89,7 @@ function createView (existingViewId, id, webPreferences, boundsString, events) {
       So if there are no features, the event is most likely from clicking on a link, which should open a new tab.
       Clicking a link can still have a "new-window" or "foreground-tab" disposition depending on which keys are pressed
       when it is clicked.
-      (https://github.com/minbrowser/min/issues/1835)
+      (https://github.com/mSearch/min/issues/1835)
     */
     if (details.url && details.url !== 'about:blank' && !details.features) {
       const eventTarget = getWindowFromViewContents(view.webContents) || windows.getCurrent()
@@ -130,7 +130,7 @@ function createView (existingViewId, id, webPreferences, boundsString, events) {
     try {
       senderURL = e.senderFrame.url
     } catch (err) {
-      // https://github.com/minbrowser/min/issues/2052
+      // https://github.com/mSearch/min/issues/2052
       console.warn('dropping message because senderFrame is destroyed', channel, data, err)
       return
     }
@@ -216,7 +216,7 @@ function createView (existingViewId, id, webPreferences, boundsString, events) {
   view.webContents.on('did-start-navigation', function (event) {
     if (event.isMainFrame && !event.isSameDocument) {
       const hasJS = viewStateMap[id].hasJS
-      const shouldHaveJS = (!(settings.get('filtering')?.contentTypes?.includes('script'))) || event.url.startsWith('min://')
+      const shouldHaveJS = (!(settings.get('filtering')?.contentTypes?.includes('script'))) || event.url.startsWith('msearch://')
       if (hasJS !== shouldHaveJS) {
         setTimeout(function () {
           view.webContents.stop()
@@ -264,21 +264,31 @@ function destroyAllViews () {
   }
 }
 
-function setView (id, senderContents) {
+function setView (id, senderContents, secondId) {
   const win = windows.windowFromContents(senderContents).win
 
-  // changing views can cause flickering, so we only want to call it if the view is actually changing
-  // see https://github.com/minbrowser/min/issues/1966
-  if (windows.getState(win).selectedView !== viewMap[id]) {
-    //remove all prior views
-    win.getContentView().children.slice(1).forEach(child => win.getContentView().removeChildView(child))
-    if (viewStateMap[id].loadedInitialURL) {
-      win.getContentView().addChildView(viewMap[id])
-    } else {
-      win.getContentView().removeChildView(viewMap[id])
+  // remove prior views except the ones we want to keep
+  win.getContentView().children.slice(1).forEach(child => {
+    if (child !== viewMap[id] && (!secondId || child !== viewMap[secondId])) {
+      win.getContentView().removeChildView(child)
     }
-    windows.getState(win).selectedView = id
+  })
+
+  // add primary view
+  if (viewStateMap[id] && viewStateMap[id].loadedInitialURL) {
+    if (!win.getContentView().children.includes(viewMap[id])) {
+      win.getContentView().addChildView(viewMap[id])
+    }
   }
+
+  // add second view if present
+  if (secondId && viewMap[secondId] && viewStateMap[secondId] && viewStateMap[secondId].loadedInitialURL) {
+    if (!win.getContentView().children.includes(viewMap[secondId])) {
+      win.getContentView().addChildView(viewMap[secondId])
+    }
+  }
+
+  windows.getState(win).selectedView = id
 }
 
 function setBounds (id, bounds) {
@@ -288,7 +298,7 @@ function setBounds (id, bounds) {
 }
 
 function focusView (id) {
-  // empty views can't be focused because they won't propogate keyboard events correctly, see https://github.com/minbrowser/min/issues/616
+  // empty views can't be focused because they won't propogate keyboard events correctly, see https://github.com/mSearch/min/issues/616
   // also, make sure the view exists, since it might not if the app is shutting down
   if (viewMap[id] && (viewMap[id].webContents.getURL() !== '' || viewMap[id].webContents.isLoading())) {
     viewMap[id].webContents.focus()
@@ -341,8 +351,11 @@ ipc.on('destroyAllViews', function () {
 })
 
 ipc.on('setView', function (e, args) {
-  setView(args.id, e.sender)
+  setView(args.id, e.sender, args.secondId)
   setBounds(args.id, args.bounds)
+  if (args.secondId && args.secondBounds) {
+    setBounds(args.secondId, args.secondBounds)
+  }
   if (args.focus && BrowserWindow.fromWebContents(e.sender) && BrowserWindow.fromWebContents(e.sender).isFocused()) {
     const couldFocus = focusView(args.id)
     if (!couldFocus) {
@@ -353,6 +366,9 @@ ipc.on('setView', function (e, args) {
 
 ipc.on('setBounds', function (e, args) {
   setBounds(args.id, args.bounds)
+  if (args.secondId && args.secondBounds) {
+    setBounds(args.secondId, args.secondBounds)
+  }
 })
 
 ipc.on('focusView', function (e, id) {

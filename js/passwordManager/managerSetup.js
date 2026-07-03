@@ -100,13 +100,13 @@ const setupDialog = {
         return
       }
 
-      dragBox.innerHTML = l('passwordManagerSetupInstalling')
+      dragBox.textContent = l('passwordManagerSetupInstalling')
 
       const filePath = electron.webUtils.getPathForFile(e.dataTransfer.files[0])
 
       // try to filter out anything that isn't an executable (note: not 100% accurate)
       if (e.dataTransfer.files[0].type !== '' && !e.dataTransfer.files[0].name.endsWith('.exe')) {
-        dragBox.innerHTML = l('passwordManagerSetupRetry')
+        dragBox.textContent = l('passwordManagerSetupRetry')
         return
       }
 
@@ -132,7 +132,7 @@ function waitForInstallerComplete () {
   })
 }
 
-// Install the tool into the Min user folder.
+// Install the tool into the mSearch user folder.
 function install (filePath, callback) {
   return new Promise((resolve, reject) => {
     try {
@@ -181,7 +181,7 @@ function afterInstall (toolPath) {
         }
 
         const message = (e.error || '').replace(/\n$/gm, '')
-        dragBox.innerHTML = l('passwordManagerSetupUnlockError') + message + ' ' + l('passwordManagerSetupRetry')
+        dragBox.textContent = l('passwordManagerSetupUnlockError') + message + ' ' + l('passwordManagerSetupRetry')
       }
     })
 }

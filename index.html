@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
 
-    <title>Min</title>
+    <title>mSearch</title>
 
     <link rel="stylesheet" href="dist/bundle.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
     <link rel="stylesheet" href="ext/icons/iconfont.css" />
   </head>
 
@@ -142,6 +143,13 @@
       </div>
       <div class="navbar-right-actions">
         <button
+          id="mai-toggle-button"
+          class="navbar-action-button"
+          data-label="maiSidebar"
+          tabindex="-1"
+          style="display: none;"
+        ></button>
+        <button
           id="add-tab-button"
           class="navbar-action-button i carbon:add"
           data-label="newTabAction"
@@ -207,6 +215,10 @@
             <button id="ntp-image-picker"><i class="i carbon:camera"></i></button>
           </div>
       </div>
+    </div>
+
+    <div id="mai-sidebar-container">
+      <iframe id="mai-iframe" src="https://mai-officiel.vercel.app"></iframe>
     </div>
 
     <!-- findinpage ui -->

@@ -28,7 +28,7 @@ const tabEditor = {
     document.body.classList.add('is-edit-mode')
 
     var currentURL = urlParser.getSourceURL(tabs.get(tabId).url)
-    if (currentURL === 'min://newtab') {
+    if (currentURL === 'msearch://newtab') {
       currentURL = ''
     }
 
@@ -37,7 +37,7 @@ const tabEditor = {
     if (!editingValue) {
       tabEditor.input.select()
     }
-    // https://github.com/minbrowser/min/discussions/1506
+    // https://github.com/mSearch/min/discussions/1506
     tabEditor.input.scrollLeft = 0
 
     searchbar.show(tabEditor.input)

@@ -1,4 +1,4 @@
-document.title = l('settingsPreferencesHeading') + ' | Min'
+document.title = l('settingsPreferencesHeading') + ' | mSearch'
 
 var contentTypeBlockingContainer = document.getElementById('content-type-blocking')
 var banner = document.getElementById('restart-required-banner')
@@ -106,7 +106,7 @@ trackingLevelOptions.forEach(function (item, idx) {
 blockingExceptionsInput.addEventListener('input', function () {
   setExceptionInputSize()
 
-  // remove protocols because of https://github.com/minbrowser/min/issues/1428
+  // remove protocols because of https://github.com/mSearch/min/issues/1428
   var newValue = this.value.split(',').map(i => i.trim().replace('http://', '').replace('https://', '')).filter(i => !!i)
 
   settings.get('filtering', function (value) {
@@ -370,6 +370,131 @@ userAgentInput.addEventListener('input', function (e) {
   }
   showRestartRequiredBanner()
 })
+
+/* mAI sidebar setting */
+
+var maiSidebarCheckbox = document.getElementById('checkbox-mai-sidebar')
+
+settings.get('enableMaiSidebar', function (value) {
+  if (value === true) {
+    maiSidebarCheckbox.checked = true
+  }
+})
+
+maiSidebarCheckbox.addEventListener('change', function (e) {
+  settings.set('enableMaiSidebar', this.checked)
+})
+
+/* Nouvelles Fonctionnalités v1.0.0 */
+
+// 1. Dossier de téléchargement
+var downloadDirectoryInput = document.getElementById('input-download-directory')
+settings.get('downloadDirectory', function (value) {
+  if (value) {
+    downloadDirectoryInput.value = value
+  }
+})
+downloadDirectoryInput.addEventListener('change', function (e) {
+  settings.set('downloadDirectory', this.value)
+})
+
+// 2. Accélération matérielle
+var hardwareAccelerationCheckbox = document.getElementById('checkbox-hardware-acceleration')
+settings.get('hardwareAcceleration', function (value) {
+  // Actif par défaut si non défini
+  if (value === false) {
+    hardwareAccelerationCheckbox.checked = false
+  } else {
+    hardwareAccelerationCheckbox.checked = true
+  }
+})
+hardwareAccelerationCheckbox.addEventListener('change', function (e) {
+  settings.set('hardwareAcceleration', this.checked)
+  showRestartRequiredBanner()
+})
+
+// 3. Mode Lecture
+var readingModeCheckbox = document.getElementById('checkbox-reading-mode')
+settings.get('readingMode', function (value) {
+  if (value === true) {
+    readingModeCheckbox.checked = true
+  }
+})
+readingModeCheckbox.addEventListener('change', function (e) {
+  settings.set('readingMode', this.checked)
+})
+
+// 4. Thème personnalisé
+var customThemeInput = document.getElementById('input-custom-theme')
+settings.get('customThemeColor', function (value) {
+  if (value) {
+    customThemeInput.value = value
+  } else {
+    customThemeInput.value = '#ffffff'
+  }
+})
+customThemeInput.addEventListener('change', function (e) {
+  settings.set('customThemeColor', this.value)
+})
+
+// 5. Mode mAI
+var maiModeSelect = document.getElementById('select-mai-mode')
+settings.get('maiMode', function (value) {
+  if (value) {
+    maiModeSelect.value = value
+  } else {
+    maiModeSelect.value = 'standard'
+  }
+})
+maiModeSelect.addEventListener('change', function (e) {
+  settings.set('maiMode', this.value)
+})
+
+// 6. Espaces de travail
+var workspacesCheckbox = document.getElementById('checkbox-workspaces')
+settings.get('enableWorkspaces', function (value) {
+  if (value === true) {
+    workspacesCheckbox.checked = true
+  }
+})
+workspacesCheckbox.addEventListener('change', function (e) {
+  settings.set('enableWorkspaces', this.checked)
+})
+
+// 7. Vue Scindée
+var splitViewCheckbox = document.getElementById('checkbox-split-view')
+settings.get('enableSplitView', function (value) {
+  if (value === true) {
+    splitViewCheckbox.checked = true
+  }
+})
+splitViewCheckbox.addEventListener('change', function (e) {
+  settings.set('enableSplitView', this.checked)
+})
+
+// 8. Mini-lecteur vidéo (Auto-PiP)
+var autoPipCheckbox = document.getElementById('checkbox-auto-pip')
+settings.get('enableAutoPiP', function (value) {
+  if (value === true) {
+    autoPipCheckbox.checked = true
+  }
+})
+autoPipCheckbox.addEventListener('change', function (e) {
+  settings.set('enableAutoPiP', this.checked)
+})
+
+// 9. Filtre Anti-Traqueurs Avancé (Privacy Dashboard)
+var privacyDashboardCheckbox = document.getElementById('checkbox-privacy-dashboard')
+settings.get('enablePrivacyDashboard', function (value) {
+  if (value === true) {
+    privacyDashboardCheckbox.checked = true
+  }
+})
+privacyDashboardCheckbox.addEventListener('change', function (e) {
+  settings.set('enablePrivacyDashboard', this.checked)
+})
+
+
 
 /* update notifications setting */
 

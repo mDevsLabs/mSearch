@@ -29,7 +29,7 @@ function captureCurrentTab (options) {
 
 // called whenever a new page starts loading, or an in-page navigation occurs
 function onPageURLChange (tab, url) {
-  if (url.indexOf('https://') === 0 || url.indexOf('about:') === 0 || url.indexOf('chrome:') === 0 || url.indexOf('file://') === 0 || url.indexOf('min://') === 0) {
+  if (url.indexOf('https://') === 0 || url.indexOf('about:') === 0 || url.indexOf('chrome:') === 0 || url.indexOf('file://') === 0 || url.indexOf('msearch://') === 0) {
     tabs.update(tab, {
       secure: true,
       url: url
@@ -104,7 +104,7 @@ const webviews = {
   placeholderRequests: [],
   asyncCallbacks: {},
   internalPages: {
-    error: 'min://app/pages/error/index.html'
+    error: 'msearch://app/pages/error/index.html'
   },
   events: [],
   IPCEvents: [],
@@ -127,7 +127,7 @@ const webviews = {
   },
   emitEvent: function (event, tabId, args) {
     if (!webviews.hasViewForTab(tabId)) {
-      // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/minbrowser/min/issues/604#issuecomment-419653437
+      // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/mSearch/min/issues/604#issuecomment-419653437
       return
     }
     webviews.events.forEach(function (ev) {
@@ -149,7 +149,7 @@ const webviews = {
     }
     webviews.resize()
   },
-  getViewBounds: function () {
+  getViewBounds: function (isSecond) {
     if (webviews.viewFullscreenMap[webviews.selectedId]) {
       return {
         x: 0,
@@ -173,8 +173,30 @@ const webviews = {
         height: window.innerHeight - Math.round(viewMargins[0] + viewMargins[2]) - navbarHeight
       }
 
+      if (settings.get('enableSplitView') === true) {
+        const secondId = webviews.getSecondTabId()
+        if (secondId) {
+          let halfWidth = Math.round(position.width / 2)
+          if (isSecond) {
+            position.x += halfWidth
+          }
+          position.width = halfWidth
+        }
+      }
+
       return position
     }
+  },
+  getSecondTabId: function () {
+    if (settings.get('enableSplitView') !== true) return null
+    if (!webviews.selectedId) return null
+    const currentTask = tasks.getTaskContainingTab(webviews.selectedId)
+    if (!currentTask) return null
+    const openTabs = currentTask.tabs.get()
+    if (openTabs.length <= 1) return null
+    const currentIndex = openTabs.findIndex(t => t.id === webviews.selectedId)
+    let secondTab = openTabs[currentIndex + 1] || openTabs[currentIndex - 1]
+    return secondTab ? secondTab.id : null
   },
   add: function (tabId, existingViewId) {
     var tabData = tabs.get(tabId)
@@ -208,8 +230,8 @@ const webviews = {
       if (tabData.url) {
         ipc.send('loadURLInView', { id: tabData.id, url: urlParser.parse(tabData.url) })
       } else if (tabData.private) {
-        // workaround for https://github.com/minbrowser/min/issues/872
-        ipc.send('loadURLInView', { id: tabData.id, url: urlParser.parse('min://newtab') })
+        // workaround for https://github.com/mSearch/min/issues/872
+        ipc.send('loadURLInView', { id: tabData.id, url: urlParser.parse('msearch://newtab') })
       }
     }
 
@@ -227,6 +249,11 @@ const webviews = {
       webviews.add(id)
     }
 
+    const secondId = webviews.getSecondTabId()
+    if (secondId && !webviews.hasViewForTab(secondId)) {
+      webviews.add(secondId)
+    }
+
     if (webviews.placeholderRequests.length > 0) {
       // update the placeholder instead of showing the actual view
       webviews.requestPlaceholder()
@@ -235,10 +262,15 @@ const webviews = {
 
     ipc.send('setView', {
       id: id,
-      bounds: webviews.getViewBounds(),
-      focus: !options || options.focus !== false
+      bounds: webviews.getViewBounds(false),
+      focus: !options || options.focus !== false,
+      secondId: secondId,
+      secondBounds: secondId ? webviews.getViewBounds(true) : null
     })
     webviews.emitEvent('view-shown', id)
+    if (secondId) {
+      webviews.emitEvent('view-shown', secondId)
+    }
   },
   update: function (id, url) {
     ipc.send('loadURLInView', { id: id, url: urlParser.parse(url) })
@@ -318,7 +350,13 @@ const webviews = {
     }
   },
   resize: function () {
-    ipc.send('setBounds', { id: webviews.selectedId, bounds: webviews.getViewBounds() })
+    const secondId = webviews.getSecondTabId()
+    ipc.send('setBounds', {
+      id: webviews.selectedId,
+      bounds: webviews.getViewBounds(false),
+      secondId: secondId,
+      secondBounds: secondId ? webviews.getViewBounds(true) : null
+    })
   },
   goBackIgnoringRedirects: async function (id) {
     const navHistory = await webviews.getNavigationHistory(id)
@@ -466,7 +504,7 @@ webviews.bindIPC('setSetting', function (tabId, args) {
 settings.listen(function () {
   tasks.forEach(function (task) {
     task.tabs.forEach(function (tab) {
-      if (tab.url.startsWith('min://')) {
+      if (tab.url.startsWith('msearch://')) {
         try {
           webviews.callAsync(tab.id, 'send', ['receiveSettingsData', settings.list])
         } catch (e) {
@@ -484,7 +522,7 @@ webviews.bindIPC('scroll-position-change', function (tabId, args) {
 })
 
 webviews.bindIPC('downloadFile', function (tabId, args) {
-  if (tabs.get(tabId).url.startsWith('min://')) {
+  if (tabs.get(tabId).url.startsWith('msearch://')) {
     webviews.callAsync(tabId, 'downloadURL', [args[0]])
   }
 })
@@ -500,7 +538,7 @@ ipc.on('async-call-result', function (e, args) {
 
 ipc.on('view-ipc', function (e, args) {
   if (!webviews.hasViewForTab(args.id)) {
-    // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/minbrowser/min/issues/604#issuecomment-419653437
+    // the view could have been destroyed between when the event was occured and when it was recieved in the UI process, see https://github.com/mSearch/min/issues/604#issuecomment-419653437
     return
   }
   webviews.IPCEvents.forEach(function (item) {
@@ -527,6 +565,19 @@ ipc.on('captureData', function (e, data) {
 ipc.on('windowFocus', function () {
   if (webviews.placeholderRequests.length === 0 && document.activeElement.tagName !== 'INPUT') {
     webviews.focus()
+  }
+})
+
+webviews.bindEvent('view-hidden', function (tabId) {
+  if (settings.get('enableAutoPiP') === true) {
+    webviews.callAsync(tabId, 'executeJavaScript', `
+      (function() {
+        const video = document.querySelector('video');
+        if (video && !video.paused && !document.pictureInPictureElement) {
+          video.requestPictureInPicture().catch(console.error);
+        }
+      })()
+    `)
   }
 })
 

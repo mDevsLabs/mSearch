@@ -3,108 +3,108 @@ var regedit = require('regedit')
 var installPath = process.execPath
 
 var keysToCreate = [
-  'HKCU\\Software\\Classes\\Min',
-  'HKCU\\Software\\Classes\\Min\\Application',
-  'HKCU\\Software\\Classes\\Min\\DefaulIcon',
-  'HKCU\\Software\\Classes\\Min\\shell\\open\\command',
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\Capabilities\\FileAssociations',
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\Capabilities\\StartMenu',
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\Capabilities\\URLAssociations',
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\DefaultIcon',
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\InstallInfo',
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\shell\\open\\command'
+  'HKCU\\Software\\Classes\\mSearch',
+  'HKCU\\Software\\Classes\\mSearch\\Application',
+  'HKCU\\Software\\Classes\\mSearch\\DefaulIcon',
+  'HKCU\\Software\\Classes\\mSearch\\shell\\open\\command',
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities\\FileAssociations',
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities\\StartMenu',
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities\\URLAssociations',
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\DefaultIcon',
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\InstallInfo',
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\shell\\open\\command'
 ]
 
 var registryConfig = {
   'HKCU\\Software\\RegisteredApplications': {
-    Min: {
-      value: 'Software\\Clients\\StartMenuInternet\\Min\\Capabilities',
+    mSearch: {
+      value: 'Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Classes\\Min': {
+  'HKCU\\Software\\Classes\\mSearch': {
     default: {
-      value: 'Min Browser Document',
+      value: 'mSearch Browser Document',
       type: 'REG_DEFAULT'
     }
   },
-  'HKCU\\Software\\Classes\\Min\\Application': {
+  'HKCU\\Software\\Classes\\mSearch\\Application': {
     ApplicationIcon: {
       value: installPath + ',0',
       type: 'REG_SZ'
     },
     ApplicationName: {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     },
     AppUserModelId: {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Classes\\Min\\DefaulIcon': {
+  'HKCU\\Software\\Classes\\mSearch\\DefaulIcon': {
     ApplicationIcon: {
       value: installPath + ',0',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Classes\\Min\\shell\\open\\command': {
+  'HKCU\\Software\\Classes\\mSearch\\shell\\open\\command': {
     default: {
       value: '"' + installPath + '" "%1"',
       type: 'REG_DEFAULT'
     }
   },
   'HKCU\\Software\\Classes\\.htm\\OpenWithProgIds': {
-    Min: {
+    mSearch: {
       value: 'Empty',
       type: 'REG_SZ'
     }
   },
   'HKCU\\Software\\Classes\\.html\\OpenWithProgIds': {
-    Min: {
+    mSearch: {
       value: 'Empty',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\Capabilities\\FileAssociations': {
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities\\FileAssociations': {
     '.htm': {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     },
     '.html': {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\Capabilities\\StartMenu': {
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities\\StartMenu': {
     StartMenuInternet: {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\Capabilities\\URLAssociations': {
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\Capabilities\\URLAssociations': {
     http: {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     },
     https: {
-      value: 'Min',
+      value: 'mSearch',
       type: 'REG_SZ'
     }
   },
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\DefaultIcon': {
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\DefaultIcon': {
     default: {
       value: installPath + ',0',
       type: 'REG_DEFAULT'
     }
   },
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\InstallInfo': {
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\InstallInfo': {
     IconsVisible: {
       value: 1,
       type: 'REG_DWORD'
     }
   },
-  'HKCU\\Software\\Clients\\StartMenuInternet\\Min\\shell\\open\\command': {
+  'HKCU\\Software\\Clients\\StartMenuInternet\\mSearch\\shell\\open\\command': {
     default: {
       value: installPath,
       type: 'REG_DEFAULT'
@@ -138,3 +138,5 @@ var registryInstaller = {
     })
   }
 }
+
+module.exports = registryInstaller
