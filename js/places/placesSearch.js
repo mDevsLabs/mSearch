@@ -17,9 +17,22 @@ function searchFormatURL (text) {
 }
 
 function getSearchTextCache (item) {
+  const title = searchFormatTitle(item.title)
+  const url = searchFormatURL(item.url)
+  let entireText = url
+
+  if (item.url !== item.title) {
+    entireText += ' ' + title
+  }
+
+  if (item.tags) {
+    entireText += ' ' + item.tags.join(' ')
+  }
+
   return {
-    title: searchFormatTitle(item.title),
-    url: searchFormatURL(item.url)
+    title,
+    url,
+    entireText
   }
 }
 
@@ -28,15 +41,7 @@ function searchPlaces (searchText, callback, options) {
     if (limitToBookmarks && !item.isBookmarked) {
       return
     }
-    let itext = item.searchTextCache.url
-
-    if (item.url !== item.title) {
-      itext += ' ' + item.searchTextCache.title
-    }
-
-    if (item.tags) {
-      itext += ' ' + item.tags.join(' ')
-    }
+    const itext = item.searchTextCache.entireText || (item.searchTextCache.url + (item.url !== item.title ? ' ' + item.searchTextCache.title : '') + (item.tags ? ' ' + item.tags.join(' ') : ''))
 
     const tindex = itext.indexOf(st)
 
