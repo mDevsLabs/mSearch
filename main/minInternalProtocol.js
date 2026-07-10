@@ -1,4 +1,8 @@
 const { pathToFileURL } = require('url')
+const path = require('path')
+
+const electron = require('electron')
+const { protocol, net, app, session, Response } = electron
 
 protocol.registerSchemesAsPrivileged([
   {

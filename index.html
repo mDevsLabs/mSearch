@@ -218,7 +218,53 @@
     </div>
 
     <div id="mai-sidebar-container">
-      <iframe id="mai-iframe" src="https://mai-officiel.vercel.app"></iframe>
+      <div id="mai-sidebar-header">
+        <h3 id="mai-sidebar-title">
+          <span class="i carbon:ai-status"></span>
+          <span>mSidebar</span>
+        </h3>
+        <div>
+          <button id="mai-sidebar-menu-button" class="i carbon:overflow-menu-vertical"></button>
+          <button id="mai-sidebar-close-button" class="i carbon:close" style="opacity: 0.4; margin-left: 4px;"></button>
+        </div>
+      </div>
+      <div id="mai-sidebar-tabs">
+        <button id="mai-sidebar-tab-ai" class="sidebar-tab active">
+          <span class="i carbon:ai-status"></span> Assistant
+        </button>
+        <button id="mai-sidebar-tab-notes" class="sidebar-tab">
+          <span class="i carbon:document"></span> Notes
+        </button>
+      </div>
+      <div id="mai-sidebar-dropdown">
+        <div id="mai-sidebar-dropdown-item" data-action="close-sidebar">
+          <span class="i carbon:close"></span>
+          Fermer
+        </div>
+        <div id="mai-sidebar-dropdown-item" data-action="reload">
+          <span class="i carbon:restart"></span>
+          Actualiser
+        </div>
+        <div id="mai-sidebar-dropdown-item" data-action="settings">
+          <span class="i carbon:settings"></span>
+          Paramètres
+        </div>
+      </div>
+      <div id="mai-sidebar-loading">
+        <div id="mai-sidebar-loading-spinner"></div>
+      </div>
+      <div id="mai-sidebar-error">
+        <span class="i carbon:warning"></span>
+        <div id="mai-sidebar-error-message">Impossible de charger l'assistant mAI</div>
+        <button id="mai-sidebar-error-button">Réessayer</button>
+      </div>
+      <div id="mai-iframe-container" style="flex: 1; overflow: hidden;">
+        <iframe id="mai-iframe" src="https://mai-officiel.vercel.app"></iframe>
+      </div>
+      <div id="mnotes-container" style="display: none; flex: 1; flex-direction: column; padding: 16px; position: relative;">
+        <textarea id="mnotes-textarea" placeholder="Prendre des notes pour cette page..."></textarea>
+        <div id="mnotes-status">Enregistré localement</div>
+      </div>
     </div>
 
     <!-- findinpage ui -->

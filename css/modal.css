@@ -2,7 +2,6 @@
   display: none;
 }
 
-/* show the overlay when the searchbar is open or a dialog is visible */
 body.is-edit-mode #overlay,
 body.is-modal-mode #overlay {
   display: block;
@@ -11,73 +10,136 @@ body.is-modal-mode #overlay {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
   z-index: 1;
   pointer-events: none;
+  transition: all 0.3s var(--liquid-easing), opacity 0.3s ease;
 }
+
 body.is-edit-mode.is-ntp.ntp-has-background #overlay {
   opacity: 0.33;
 }
 
 body.is-modal-mode #overlay {
-  /* In modal mode, the tab bar should be disabled */
   z-index: 5;
   pointer-events: all;
 }
+
 body.dark-mode #overlay {
-  background: rgba(33, 37, 43, 0.4);
+  background: rgba(15, 18, 26, 0.55);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+#overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .modal {
   width: 100vw;
-  max-width: 700px;
+  max-width: 680px;
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 9;
-  transform: translate(-50%, -50%);
-  padding: 1em 1.25em;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  background: #fff;
-  animation: modal-appear 0.2s;
+  transform: translate(-50%, -50%) scale(0.95);
+  padding: 1.5em 1.75em;
+  border-radius: var(--liquid-radius-lg);
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light), var(--glass-glow-light);
+  animation: modal-appear 0.35s var(--liquid-easing) forwards;
+  transform-origin: center;
+  isolation: isolate;
+}
+
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  border-radius: var(--liquid-radius-lg) var(--liquid-radius-lg) 0 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes modal-appear {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
+    transform: translate(-50%, -50%) scale(0.95);
+    filter: blur(12px);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.02);
+    filter: blur(2px);
   }
   100% {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
   }
 }
 
 .dark-mode .modal {
-  background-color: rgb(33, 37, 43);
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: var(--glass-shadow-dark);
 }
 
 .modal-close-button {
   position: absolute;
-  top: 0.66em;
-  right: 0.66em;
-  font-size: 1.66em !important;
-  opacity: 0.75;
-  border-radius: 50%;
-  padding: 0.05em;
+  top: 0.8em;
+  right: 0.8em;
+  font-size: 1.5em !important;
+  opacity: 0.7;
+  border-radius: var(--liquid-radius-pill);
+  padding: 0.25em;
+  transition: all 0.2s var(--liquid-easing);
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-light-subtle);
 }
 
 .modal-close-button:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.075);
+  background: rgba(0, 0, 0, 0.08);
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .modal-close-button {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--glass-border-dark-subtle);
 }
 
 .dark-mode .modal-close-button:hover {
   background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .modal-title {
-  font-size: 1.5em;
+  font-size: 1.4em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   margin-top: 0;
   margin-bottom: 1em;
   max-width: 90%;
