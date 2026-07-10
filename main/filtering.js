@@ -172,6 +172,27 @@ function handleRequest (details, callback) {
 
   const isExceptionDomain = domain && requestDomainIsException(domain)
 
+  // Mode Éco-Navigation
+  if (settings.get('ecoNavigation') === true && !isExceptionDomain) {
+    // 1. Bloquer les vidéos / médias lourds
+    if (details.resourceType === 'media' || /\.(mp4|webm|ogg|mkv|avi|mov|flv|wmv)($|\?)/i.test(details.url)) {
+      callback({
+        cancel: true
+      })
+      return
+    }
+
+    // 2. Compresser les images (proxy images.weserv.nl)
+    if (details.resourceType === 'image' && !details.url.includes('images.weserv.nl') && (details.url.startsWith('http://') || details.url.startsWith('https://'))) {
+      const compressedUrl = 'https://images.weserv.nl/?url=' + encodeURIComponent(details.url) + '&w=300&q=60&output=webp'
+      callback({
+        cancel: false,
+        redirectURL: compressedUrl
+      })
+      return
+    }
+  }
+
   const modifiedURL = (enabledFilteringOptions.blockingLevel > 0 && !isExceptionDomain) ? removeTrackingParams(details.url) : details.url
 
   if (!(details.url.startsWith('http://') || details.url.startsWith('https://')) || details.resourceType === 'mainFrame') {
