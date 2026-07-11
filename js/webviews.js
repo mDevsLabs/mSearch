@@ -1,5 +1,7 @@
 var urlParser = require('util/urlParser.js')
 var settings = require('util/settings/settings.js')
+var ipc = window.ipc
+var l = window.l
 
 /* implements selecting webviews, switching between them, and creating new ones. */
 
@@ -149,7 +151,7 @@ const webviews = {
     }
     webviews.resize()
   },
-  getViewBounds: function () {
+  getViewBounds: function (isSecond) {
     if (webviews.viewFullscreenMap[webviews.selectedId]) {
       return {
         x: 0,
@@ -173,8 +175,30 @@ const webviews = {
         height: window.innerHeight - Math.round(viewMargins[0] + viewMargins[2]) - navbarHeight
       }
 
+      if (settings.get('enableSplitView') === true) {
+        const secondId = webviews.getSecondTabId()
+        if (secondId) {
+          let halfWidth = Math.round(position.width / 2)
+          if (isSecond) {
+            position.x += halfWidth
+          }
+          position.width = halfWidth
+        }
+      }
+
       return position
     }
+  },
+  getSecondTabId: function () {
+    if (settings.get('enableSplitView') !== true) return null
+    if (!webviews.selectedId) return null
+    const currentTask = tasks.getTaskContainingTab(webviews.selectedId)
+    if (!currentTask) return null
+    const openTabs = currentTask.tabs.get()
+    if (openTabs.length <= 1) return null
+    const currentIndex = openTabs.findIndex(t => t.id === webviews.selectedId)
+    let secondTab = openTabs[currentIndex + 1] || openTabs[currentIndex - 1]
+    return secondTab ? secondTab.id : null
   },
   add: function (tabId, existingViewId) {
     var tabData = tabs.get(tabId)
@@ -227,6 +251,11 @@ const webviews = {
       webviews.add(id)
     }
 
+    const secondId = webviews.getSecondTabId()
+    if (secondId && !webviews.hasViewForTab(secondId)) {
+      webviews.add(secondId)
+    }
+
     if (webviews.placeholderRequests.length > 0) {
       // update the placeholder instead of showing the actual view
       webviews.requestPlaceholder()
@@ -235,10 +264,15 @@ const webviews = {
 
     ipc.send('setView', {
       id: id,
-      bounds: webviews.getViewBounds(),
-      focus: !options || options.focus !== false
+      bounds: webviews.getViewBounds(false),
+      focus: !options || options.focus !== false,
+      secondId: secondId,
+      secondBounds: secondId ? webviews.getViewBounds(true) : null
     })
     webviews.emitEvent('view-shown', id)
+    if (secondId) {
+      webviews.emitEvent('view-shown', secondId)
+    }
   },
   update: function (id, url) {
     ipc.send('loadURLInView', { id: id, url: urlParser.parse(url) })
@@ -318,7 +352,13 @@ const webviews = {
     }
   },
   resize: function () {
-    ipc.send('setBounds', { id: webviews.selectedId, bounds: webviews.getViewBounds() })
+    const secondId = webviews.getSecondTabId()
+    ipc.send('setBounds', {
+      id: webviews.selectedId,
+      bounds: webviews.getViewBounds(false),
+      secondId: secondId,
+      secondBounds: secondId ? webviews.getViewBounds(true) : null
+    })
   },
   goBackIgnoringRedirects: async function (id) {
     const navHistory = await webviews.getNavigationHistory(id)
@@ -527,6 +567,19 @@ ipc.on('captureData', function (e, data) {
 ipc.on('windowFocus', function () {
   if (webviews.placeholderRequests.length === 0 && document.activeElement.tagName !== 'INPUT') {
     webviews.focus()
+  }
+})
+
+webviews.bindEvent('view-hidden', function (tabId) {
+  if (settings.get('enableAutoPiP') === true) {
+    webviews.callAsync(tabId, 'executeJavaScript', `
+      (function() {
+        const video = document.querySelector('video');
+        if (video && !video.paused && !document.pictureInPictureElement) {
+          video.requestPictureInPicture().catch(console.error);
+        }
+      })()
+    `)
   }
 })
 

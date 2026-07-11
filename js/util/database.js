@@ -28,7 +28,7 @@ db.open().then(function () {
 }).catch(function (error) {
   if (error.message.indexOf(dbErrorMessage) !== -1 && !dbErrorAlertShown) {
     window && window.alert && window.alert(l('multipleInstancesErrorMessage'))
-    ipc.send('quit')
+    ipcRenderer.send('quit')
 
     dbErrorAlertShown = true
   }

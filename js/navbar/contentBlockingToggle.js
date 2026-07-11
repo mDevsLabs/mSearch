@@ -62,32 +62,67 @@ const contentBlockingToggle = {
   },
   showMenu: function (button) {
     var url = tabs.get(tabs.getSelected()).url
-    var menu = [
-      [
+    const isDashboardEnabled = settings.get('enablePrivacyDashboard') === true
+    var dashboardSection = []
+    if (isDashboardEnabled) {
+      const blockedCount = settings.get('filteringBlockedCount') || 0
+      const isSecure = url.startsWith('https://')
+      var hostname = ''
+      try {
+        hostname = new URL(url).hostname
+      } catch (e) {
+        hostname = url
+      }
+      dashboardSection = [
         {
-          type: 'checkbox',
-          label: l('enableBlocking'),
-          checked: contentBlockingToggle.isBlockingEnabled(url),
-          click: function () {
-            if (contentBlockingToggle.isBlockingEnabled(url)) {
-              contentBlockingToggle.disableBlocking(url)
-            } else {
-              contentBlockingToggle.enableBlocking(url)
-            }
-            contentBlockingToggle.update(tabs.getSelected(), button)
-          }
-        }
-      ],
-      [
+          label: '🛡️ Tableau de bord de confidentialité',
+          enabled: false
+        },
         {
-          label: l('appMenuReportBug'),
-          click: function () {
-            var newTab = tabs.add({ url: 'https://github.com/mSearch/min/issues/new?title=Content%20blocking%20issue%20on%20' + encodeURIComponent(url) })
-            require('browserUI.js').addTab(newTab, { enterEditMode: false })
-          }
+          label: '   • Domaine : ' + hostname,
+          enabled: false
+        },
+        {
+          label: '   • Traqueurs bloqués globalement : ' + blockedCount,
+          enabled: false
+        },
+        {
+          label: '   • Sécurisé : ' + (isSecure ? 'Oui (HTTPS) 🔒' : 'Non (HTTP) ⚠️'),
+          enabled: false
         }
       ]
-    ]
+    }
+
+    var menu = []
+    if (isDashboardEnabled) {
+      menu.push(dashboardSection)
+    }
+
+    menu.push([
+      {
+        type: 'checkbox',
+        label: l('enableBlocking'),
+        checked: contentBlockingToggle.isBlockingEnabled(url),
+        click: function () {
+          if (contentBlockingToggle.isBlockingEnabled(url)) {
+            contentBlockingToggle.disableBlocking(url)
+          } else {
+            contentBlockingToggle.enableBlocking(url)
+          }
+          contentBlockingToggle.update(tabs.getSelected(), button)
+        }
+      }
+    ])
+
+    menu.push([
+      {
+        label: l('appMenuReportBug'),
+        click: function () {
+          var newTab = tabs.add({ url: 'https://github.com/mSearch/min/issues/new?title=Content%20blocking%20issue%20on%20' + encodeURIComponent(url) })
+          require('browserUI.js').addTab(newTab, { enterEditMode: false })
+        }
+      }
+    ])
     remoteMenu.open(menu)
   },
   update: function (tabId, button) {

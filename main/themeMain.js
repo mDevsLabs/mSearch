@@ -1,3 +1,6 @@
+const electron = require('electron')
+const { app, nativeTheme } = electron
+
 function isNightTime () {
   var hours = new Date().getHours()
   return (hours > 21 || hours < 6)
