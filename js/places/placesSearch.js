@@ -29,10 +29,14 @@ function getSearchTextCache (item) {
     entireText += ' ' + item.tags.join(' ')
   }
 
+  // Pre-calculate fullText for fullTextSearch.js
+  const fullText = (item.url + ' ' + item.title + ' ' + (item.tags ? item.tags.join(' ') : '')).toLowerCase()
+
   return {
     title,
     url,
-    entireText
+    entireText,
+    fullText
   }
 }
 

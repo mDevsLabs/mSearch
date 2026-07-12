@@ -169,7 +169,7 @@ function fullTextQuery (tokens) {
     even if it's part of a larger word, or 2) a word in the full-text index.
      */
     historyInMemoryCache.forEach(function (item) {
-      var itext = (item.url + ' ' + item.title + ' ' + item.tags.join(' ')).toLowerCase()
+      var itext = item.searchTextCache ? item.searchTextCache.fullText : (item.url + ' ' + item.title + ' ' + (item.tags ? item.tags.join(' ') : '')).toLowerCase()
       var matched = true
       for (var i = 0; i < tokens.length; i++) {
         if (!tokenMatches[i].includes(item.id) && !itext.includes(tokens[i])) {

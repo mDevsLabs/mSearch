@@ -1,3 +1,6 @@
 ## 2024-05-24 - Pre-calculating concatenated search text in placesSearch
 **Learning:** In `js/places/placesSearch.js`, `processSearchItem` is called for every item in the history database on every keystroke during a search. It concatenates `item.searchTextCache.url`, `item.searchTextCache.title`, and `item.tags` into a single string `itext` on the fly. This string concatenation creates unnecessary object allocations and slows down search significantly.
 **Action:** By pre-calculating this concatenated string and storing it in `searchTextCache.entireText` when the history cache is built, we can avoid concatenating strings inside the tight search loop, improving search performance.
+## 2025-02-28 - Pre-calculating full text string for fullTextSearch
+**Learning:** In `js/places/fullTextSearch.js`, `fullTextQuery` evaluates every item in `historyInMemoryCache`. It concatenates the URL, title, and tags, and applies `.toLowerCase()` on the fly. Doing this inside a large loop creates unnecessary object allocations and slows down full-text history search.
+**Action:** By pre-calculating this concatenated string and storing it in `searchTextCache.fullText` alongside the existing `entireText` cache during indexing, we can avoid string concatenations inside the full text query loop, further improving search performance.
