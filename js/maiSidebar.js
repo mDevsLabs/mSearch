@@ -2,7 +2,7 @@ var settings = require('util/settings/settings.js')
 
 function initialize () {
   var toggleButton = document.getElementById('mai-toggle-button')
-  
+
   // Ecoute sur le paramètre mAI
   settings.listen('enableMaiSidebar', function (value) {
     if (value === true) {

@@ -175,10 +175,10 @@
     "settingsUsageStatisticsToggle": {
       "unsafeHTML": "Pošaljite statistiku upotrebe (<a href=\"https://mprojects.odoo.com\">Više informacija</a>)"
     },
-    "settingsStartupOptions": "Kada se mSearch pokrene:", 
-    "settingsStartupCreateTask": "Ponovno otvori prethodne kartice", 
-    "settingsStartupNewTaskandBackground": "Premjesti prethodne kartice u pozadinski zadatak", 
-    "settingsStartupNewTaskOnly": "Otvori novi prazni zadatak", 
+    "settingsStartupOptions": "Kada se mSearch pokrene:",
+    "settingsStartupCreateTask": "Ponovno otvori prethodne kartice",
+    "settingsStartupNewTaskandBackground": "Premjesti prethodne kartice u pozadinski zadatak",
+    "settingsStartupNewTaskOnly": "Otvori novi prazni zadatak",
     "settingsNewWindowOptions": "U novim prozorima: ",
     "settingsNewWindowCreateTask": "Stvori novi zadatak",
     "settingsNewWindowPickTask": "Prikaži popis zadataka",

@@ -60,10 +60,14 @@ body.dark-mode .settings-container {
   margin: 0.5em 0;
 }
 
-input, select, textarea, button {
+input,
+select,
+textarea,
+button {
   transition: all 0.2s ease-in-out;
 }
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
   accent-color: #507ac4;
   transform: scale(1.15);
   cursor: pointer;

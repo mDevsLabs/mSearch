@@ -1,17 +1,13 @@
-/* global spacesRegex historyInMemoryCache calculateHistoryScore */
+/* global spacesRegex historyInMemoryCache calculateHistoryScore oneDayInMS */
 
 /* depends on placesWorker.js */
 
 function searchFormatTitle (text) {
-  return text.toLowerCase().replace(spacesRegex, ' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove diacritics
+  return text.toLowerCase().replace(spacesRegex, ' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
 function searchFormatURL (text) {
-  // the order of these transformations is important - for example, spacesRegex removes / characters, so protocols must be removed before it runs
   return text.toLowerCase().split('?')[0].replace('http://', '').replace('https://', '').replace('www.', '').replace(spacesRegex, ' ')
-    // Remove diacritics
-    // URLs don't normally contrain diacritics, but this processing is also applied to the user-typed text, so it needs to match the transformations
-    // Applied by searchFormatTitle
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .trim()
 }
@@ -41,25 +37,20 @@ function searchPlaces (searchText, callback, options) {
     if (limitToBookmarks && !item.isBookmarked) {
       return
     }
-    const itext = item.searchTextCache.entireText || (item.searchTextCache.url + (item.url !== item.title ? ' ' + item.searchTextCache.title : '') + (item.tags ? ' ' + item.tags.join(' ') : ''))
+    const itext = item.searchTextCache.entireText
 
     const tindex = itext.indexOf(st)
 
-    // if the url contains the search string, count as a match
-    // prioritize matches near the beginning of the url
     if (tindex === 0) {
-      item.boost = itemStartBoost // large amount of boost for this
+      item.boost = itemStartBoost
       matches.push(item)
     } else if (tindex !== -1) {
       item.boost = exactMatchBoost
       matches.push(item)
     } else {
-      // if all of the search words (split by spaces, etc) exist in the url, count it as a match, even if they are out of order
-
       if (substringSearchEnabled) {
         let substringMatch = true
 
-        // check if the search text matches but is out of order
         for (let i = 0; i < swl; i++) {
           if (itext.indexOf(searchWords[i]) === -1) {
             substringMatch = false
@@ -84,8 +75,8 @@ function searchPlaces (searchText, callback, options) {
     }
   }
 
-  const oneDayAgo = Date.now() - (oneDayInMS)
-  const oneWeekAgo = Date.now() - (oneDayInMS * 7)
+  const oneDayAgo = Date.now() - oneDayInMS
+  const oneWeekAgo = Date.now() - oneDayInMS * 7
 
   const matches = []
   const st = searchFormatURL(searchText)
@@ -103,17 +94,16 @@ function searchPlaces (searchText, callback, options) {
   }
 
   for (let i = 0; i < historyInMemoryCache.length; i++) {
-    if (matches.length > (resultsLimit * 2)) {
+    if (matches.length > resultsLimit * 2) {
       break
     }
     processSearchItem(historyInMemoryCache[i])
   }
 
-  matches.sort(function (a, b) { // we have to re-sort to account for the boosts applied to the items
+  matches.sort(function (a, b) {
     return calculateHistoryScore(b) - calculateHistoryScore(a)
   })
 
-  // clean up
   matches.forEach(function (match) {
     match.boost = 0
   })

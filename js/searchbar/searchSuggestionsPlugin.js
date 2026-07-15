@@ -3,8 +3,10 @@ var searchbarPlugins = require('searchbar/searchbarPlugins.js')
 var urlParser = require('util/urlParser.js')
 var searchEngine = require('util/searchEngine.js')
 
+var currentRequestText = ''
+
 function showSearchSuggestions (text, input, inputFlags) {
-    const suggestionsURL = searchEngine.getCurrent().suggestionsURL
+  const suggestionsURL = searchEngine.getCurrent().suggestionsURL
 
   if (!suggestionsURL) {
     searchbarPlugins.reset('searchSuggestions')
@@ -16,6 +18,7 @@ function showSearchSuggestions (text, input, inputFlags) {
     return
   }
 
+  currentRequestText = text
   fetch(suggestionsURL.replace('%s', encodeURIComponent(text)), {
     cache: 'force-cache'
   })
@@ -23,6 +26,10 @@ function showSearchSuggestions (text, input, inputFlags) {
       return response.json()
     })
     .then(function (results) {
+      if (text !== currentRequestText) {
+        return
+      }
+
       searchbarPlugins.reset('searchSuggestions')
 
       if (searchbarPlugins.getResultCount() > 3) {

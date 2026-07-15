@@ -192,7 +192,7 @@ class TaskList {
   }
 
   static getRandomId () {
-    return Math.round(Math.random() * 100000000000000000)
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 15)
   }
 }
 
