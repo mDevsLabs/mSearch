@@ -1,3 +1,6 @@
+const electron = require('electron')
+const BrowserWindow = electron.BrowserWindow
+
 var viewMap = {} // id: view
 var viewStateMap = {} // id: view state
 

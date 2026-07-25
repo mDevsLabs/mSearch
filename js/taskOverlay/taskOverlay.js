@@ -72,7 +72,7 @@ function deleteTabFromOverlay (item) {
 }
 
 function getTaskContainer (id) {
-  return document.querySelector('.task-container[data-task="{id}"]'.replace('{id}', id))
+  return document.querySelector('.task-container[data-task="' + id + '"]')
 }
 
 var taskOverlay = {
@@ -204,7 +204,7 @@ var taskOverlay = {
     this.overlayElement.hidden = false
 
     // scroll to the selected element and focus it
-    var currentTabElement = document.querySelector('.task-tab-item[data-tab="{id}"]'.replace('{id}', tasks.getSelected().tabs.getSelected()))
+    var currentTabElement = document.querySelector('.task-tab-item[data-tab="' + tasks.getSelected().tabs.getSelected() + '"]')
 
     if (currentTabElement) {
       currentTabElement.classList.add('fakefocus')

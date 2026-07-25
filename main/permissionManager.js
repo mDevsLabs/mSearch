@@ -2,6 +2,9 @@ var pendingPermissions = []
 var grantedPermissions = []
 var nextPermissionId = 1
 
+const electron = require('electron')
+const { app, ipcMain: ipc, session } = electron
+
 /*
 All permission requests are given to the renderer on each change,
 it will figure out what updates to make

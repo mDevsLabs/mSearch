@@ -1,6 +1,9 @@
 /* Use the same user agent as Chrome to improve site compatibility and increase fingerprinting resistance
 see https://github.com/mSearch/min/issues/657 for more information */
 
+const electron = require('electron')
+const { app, session } = electron
+
 const defaultUserAgent = app.userAgentFallback
 let hasCustomUserAgent = false
 let newUserAgent

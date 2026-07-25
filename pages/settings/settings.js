@@ -494,6 +494,27 @@ privacyDashboardCheckbox.addEventListener('change', function (e) {
   settings.set('enablePrivacyDashboard', this.checked)
 })
 
+// 10. Mode Éco-Navigation
+var ecoNavigationCheckbox = document.getElementById('checkbox-eco-navigation')
+settings.get('ecoNavigation', function (value) {
+  if (value === true) {
+    ecoNavigationCheckbox.checked = true
+  }
+})
+ecoNavigationCheckbox.addEventListener('change', function (e) {
+  settings.set('ecoNavigation', this.checked)
+})
+
+// 11. Anti-Fingerprinting Avancé
+var antiFingerprintingCheckbox = document.getElementById('checkbox-anti-fingerprinting')
+settings.get('antiFingerprinting', function (value) {
+  if (value === true) {
+    antiFingerprintingCheckbox.checked = true
+  }
+})
+antiFingerprintingCheckbox.addEventListener('change', function (e) {
+  settings.set('antiFingerprinting', this.checked)
+})
 
 
 /* update notifications setting */

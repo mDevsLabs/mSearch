@@ -4,8 +4,6 @@ var tabs = window.tabs
 
 var webviewGestures = {
   showBackArrow: function () {
-    // this is temporarily disabled until we find a way to make it work with BrowserViews
-    return
     var backArrow = document.getElementById('leftArrowContainer')
     backArrow.classList.toggle('shown')
     backArrow.classList.toggle('animating')
@@ -17,8 +15,6 @@ var webviewGestures = {
     }, 900)
   },
   showForwardArrow: function () {
-    // this is temporarily disabled until we find a way to make it work with BrowserViews
-    return
     var forwardArrow = document.getElementById('rightArrowContainer')
     forwardArrow.classList.toggle('shown')
     forwardArrow.classList.toggle('animating')

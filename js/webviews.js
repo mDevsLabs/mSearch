@@ -1,5 +1,7 @@
 var urlParser = require('util/urlParser.js')
 var settings = require('util/settings/settings.js')
+var ipc = window.ipc
+var l = window.l
 
 var tabs = window.tabs
 var tasks = window.tasks

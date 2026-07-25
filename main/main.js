@@ -82,7 +82,6 @@ const isFirstInstance = app.requestSingleInstanceLock()
 
 if (!isFirstInstance) {
   app.quit()
-  return
 }
 
 var saveWindowBounds = function () {
@@ -538,3 +537,11 @@ app.on('ready', function() {
     })
   })
 })
+
+ipc.on('get-setting', function (event, key) {
+  event.returnValue = settings.get(key)
+})
+
+if (typeof module !== 'undefined') {
+  module.exports = {}
+}

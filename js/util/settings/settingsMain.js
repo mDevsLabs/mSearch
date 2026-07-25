@@ -40,7 +40,7 @@ var settings = {
         if (listener.key) {
           listener.cb(settings.list[listener.key])
         } else {
-          listener.cb(key)
+          listener.cb(settings.list[key])
         }
       }
     })
