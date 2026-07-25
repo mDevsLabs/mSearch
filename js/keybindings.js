@@ -1,15 +1,17 @@
 /*
 There are three possible ways that keybindings can be handled.
- Shortcuts that appear in the menubar are registered in main.js, and send IPC messages to the window (which are handled by menuRenderer.js)
- - If the browser UI is focused, a before-input-event is generated in the main process and forwarded to here.
-  - If a BrowserView is focused, a before-input-event is generated from the webContents and forwarded to here.
-  */
+  Shortcuts that appear in the menubar are registered in main.js, and send IPC messages to the window (which are handled by menuRenderer.js)
+  - If the browser UI is focused, a before-input-event is generated in the main process and forwarded to here.
+   - If a BrowserView is focused, a before-input-event is generated from the webContents and forwarded to here.
+   */
 
 const keyMapModule = require('util/keyMap.js')
 
 var webviews = require('webviews.js')
 var modalMode = require('modalMode.js')
 var settings = require('util/settings/settings.js')
+
+var tabs = window.tabs
 
 var keyMap = keyMapModule.userKeyMap(settings.get('keyMap'))
 

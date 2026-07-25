@@ -2,6 +2,8 @@ const webviews = require('webviews.js')
 const settings = require('util/settings/settings.js')
 const remoteMenu = require('remoteMenuRenderer.js')
 
+var tabs = window.tabs
+
 const contentBlockingToggle = {
   enableBlocking: function (url) {
     if (!url) {

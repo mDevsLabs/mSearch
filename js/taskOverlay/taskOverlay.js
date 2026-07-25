@@ -12,6 +12,9 @@ var Sortable = require('sortablejs')
 
 const createTaskContainer = require('taskOverlay/taskOverlayBuilder.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 var taskContainer = document.getElementById('task-area')
 var taskSwitcherButton = document.getElementById('switch-task-button')
 var addTaskButton = document.getElementById('add-task')

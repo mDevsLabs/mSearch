@@ -1,6 +1,9 @@
 var urlParser = require('util/urlParser.js')
 var settings = require('util/settings/settings.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 /* implements selecting webviews, switching between them, and creating new ones. */
 
 var placeholderImg = document.getElementById('webview-placeholder')

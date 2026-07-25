@@ -3,6 +3,8 @@ const bookmarkEditor = require('searchbar/bookmarkEditor.js')
 const searchbar = require('searchbar/searchbar.js')
 const searchbarPlugins = require('searchbar/searchbarPlugins.js')
 
+var tabs = window.tabs
+
 const bookmarkStar = {
   create: function () {
     const star = document.createElement('button')

@@ -2,6 +2,9 @@
 
 var tabBar = require('navbar/tabBar.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 var tabActivity = {
   minFadeAge: 330000,
   refresh: function () {

@@ -4,6 +4,8 @@ var urlParser = require('util/urlParser.js')
 
 var readerDecision = require('readerDecision.js')
 
+var tabs = window.tabs
+
 var readerView = {
   readerURL: 'msearch://app/reader/index.html',
   getReaderURL: function (url) {

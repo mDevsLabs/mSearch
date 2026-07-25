@@ -7,6 +7,8 @@ var taskOverlay = require('taskOverlay/taskOverlay.js')
 const writeFileAtomic = require('write-file-atomic')
 const statistics = require('js/statistics.js')
 
+var tasks = window.tasks
+
 const sessionRestore = {
   savePath: window.globalArgs['user-data-path'] + (platformType === 'windows' ? '\\sessionRestore.json' : '/sessionRestore.json'),
   previousState: null,

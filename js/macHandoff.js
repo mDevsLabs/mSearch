@@ -1,5 +1,8 @@
 /* Handoff support for macOS */
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 module.exports = {
   initialize: function () {
     if (window.platformType === 'mac') {

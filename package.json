@@ -2,7 +2,7 @@
   "name": "msearch",
   "productName": "mSearch",
   "author": "mDevlopers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Avec mSearch, recherchez en toute sécurité !",
   "electronVersion": "41.2.0",
   "main": "main.build.js",

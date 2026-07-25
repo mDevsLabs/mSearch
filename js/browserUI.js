@@ -11,6 +11,9 @@ var tabBar = require('navbar/tabBar.js')
 var tabEditor = require('navbar/tabEditor.js')
 var searchbar = require('searchbar/searchbar.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 /* creates a new task */
 
 function addTask () {

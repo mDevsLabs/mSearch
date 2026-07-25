@@ -2,6 +2,9 @@ var webviews = require('webviews.js')
 var keybindings = require('keybindings.js')
 var PDFViewer = require('pdfViewer.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 var findinpage = {
   container: document.getElementById('findinpage-bar'),
   input: document.getElementById('findinpage-input'),
