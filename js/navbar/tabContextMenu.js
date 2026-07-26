@@ -4,6 +4,9 @@ const webviews = require('webviews.js')
 const readerView = require('readerView.js')
 const urlParser = require('util/urlParser.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 const tabContextMenu = {
   show: function (tabId) {
     const tabMenu = [
@@ -59,7 +62,7 @@ const tabContextMenu = {
       }
     }
 
-    tabMenu[0].push( {
+    tabMenu[0].push({
       label: l('tabMenuReload'),
       click: function () {
         if (tabs.get(tabId).url.startsWith(webviews.internalPages.error)) {

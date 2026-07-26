@@ -12,6 +12,9 @@ const tabEditor = require('navbar/tabEditor.js')
 const progressBar = require('navbar/progressBar.js')
 const permissionRequests = require('navbar/permissionRequests.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 var lastTabDeletion = 0 // TODO get rid of this
 
 const tabBar = {

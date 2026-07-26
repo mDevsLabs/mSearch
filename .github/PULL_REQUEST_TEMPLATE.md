@@ -32,7 +32,6 @@
 - [ ] scripts
 - [ ] autre
 
-
 ## 🔗 Issue Liée
 
 ## 🔀 Pull Request Liée

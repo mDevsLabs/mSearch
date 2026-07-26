@@ -2,107 +2,11 @@ var settings = require('util/settings/settings.js')
 
 function initialize() {
   var toggleButton = document.getElementById('mai-toggle-button')
-  var closeButton = document.getElementById('mai-sidebar-close-button')
-  var menuButton = document.getElementById('mai-sidebar-menu-button')
-  var dropdown = document.getElementById('mai-sidebar-dropdown')
-  var iframeContainer = document.getElementById('mai-iframe-container')
-  var iframe = document.getElementById('mai-iframe')
-  var loading = document.getElementById('mai-sidebar-loading')
-  var error = document.getElementById('mai-sidebar-error')
-  var errorMessage = document.getElementById('mai-sidebar-error-message')
-  var errorButton = document.getElementById('mai-sidebar-error-button')
 
-  // Éléments du DOM pour les notes rapides
-  var tabAi = document.getElementById('mai-sidebar-tab-ai')
-  var tabNotes = document.getElementById('mai-sidebar-tab-notes')
-  var mnotesContainer = document.getElementById('mnotes-container')
-  var mnotesTextarea = document.getElementById('mnotes-textarea')
-  var mnotesStatus = document.getElementById('mnotes-status')
-
-  var maiUrl = 'https://mai-officiel.vercel.app'
-  var retryCount = 0
-  var maxRetries = 3
-  var isLoading = false
-  var currentUrl = ''
-
-  function showLoading() {
-    if (tabAi.classList.contains('active')) {
-      loading.classList.add('visible')
-    }
-    error.classList.remove('visible')
-  }
-
-  function hideLoading() {
-    loading.classList.remove('visible')
-  }
-
-  function showError(message) {
-    if (tabAi.classList.contains('active')) {
-      errorMessage.textContent = message
-      error.classList.add('visible')
-    }
-    if (iframe) {
-      iframe.style.display = 'none'
-    }
-  }
-
-  function hideError() {
-    error.classList.remove('visible')
-    if (iframe && tabAi.classList.contains('active')) {
-      iframe.style.display = 'block'
-    }
-  }
-
-  function loadMaiIframe() {
-    if (isLoading) return
-    
-    isLoading = true
-    showLoading()
-    hideError()
-    
-    if (iframe) {
-      iframe.src = maiUrl
-      iframe.onload = function() {
-        hideLoading()
-        retryCount = 0
-        isLoading = false
-      }
-      iframe.onerror = function() {
-        retryCount++
-        if (retryCount < maxRetries) {
-          setTimeout(loadMaiIframe, 2000)
-        } else {
-          showError('Impossible de se connecter à l\'assistant mAI')
-          hideLoading()
-          isLoading = false
-        }
-      }
-    }
-  }
-
-  // Logique de gestion des notes
-  function getDomainKey(urlStr) {
-    if (!urlStr) return ''
-    try {
-      if (urlStr.startsWith('msearch://')) return ''
-      var url = new URL(urlStr)
-      return 'mnotes_' + url.hostname
-    } catch(e) {
-      return ''
-    }
-  }
-
-  function loadNote() {
-    var selectedTab = tasks.getSelected().tabs.getSelected()
-    var tabObj = tasks.getSelected().tabs.get(selectedTab)
-    currentUrl = tabObj ? tabObj.url : ''
-    
-    var key = getDomainKey(currentUrl)
-    if (key) {
-      mnotesTextarea.value = localStorage.getItem(key) || ''
-      mnotesTextarea.disabled = false
-      mnotesTextarea.placeholder = "Prendre des notes pour " + new URL(currentUrl).hostname + "..."
-      mnotesStatus.textContent = "Modifications enregistrées localement"
+  // Ecoute sur le paramètre mAI
+  settings.listen('enableMaiSidebar', function (value) {
+    if (value === true) {
+      toggleButton.style.display = 'inline-block'
     } else {
       mnotesTextarea.value = ''
       mnotesTextarea.disabled = true

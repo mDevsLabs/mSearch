@@ -9,7 +9,7 @@ class TabList {
   static temporaryProperties = ['hasAudio', 'previewImage', 'loaded', 'hasWebContents']
 
   add (tab = {}, options = {}, emit=true) {
-    var tabId = String(tab.id || Math.round(Math.random() * 100000000000000000)) // you can pass an id that will be used, or a random one will be generated.
+    var tabId = String(tab.id || (Date.now().toString(36) + Math.random().toString(36).substring(2, 15))) // you can pass an id that will be used, or a random one will be generated.
 
     var newTab = {
       url: tab.url || '',
@@ -74,7 +74,7 @@ class TabList {
 
     const containingTask = this.parentTaskList.getTaskContainingTab(id).id
 
-    tasks.getTaskContainingTab(id).tabHistory.push(this.toPermanentState(this.tabs[index]))
+    this.parentTaskList.getTaskContainingTab(id).tabHistory.push(this.toPermanentState(this.tabs[index]))
     this.tabs.splice(index, 1)
 
     if (emit) {

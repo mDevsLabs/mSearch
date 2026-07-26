@@ -3,6 +3,8 @@
 const webviews = require('webviews.js')
 const urlParser = require('util/urlParser.js')
 
+var tabs = window.tabs
+
 const PDFViewer = {
   url: {
     base: 'msearch://app/pages/pdfViewer/index.html',

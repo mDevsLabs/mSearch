@@ -10,6 +10,9 @@ var settings = require('util/settings/settings.js')
 
 var keyMap = keyMapModule.userKeyMap(settings.get('keyMap'))
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 const defaultKeybindings = {
   initialize: function () {
     keybindings.defineShortcut('quitMSearch', function () {
@@ -248,7 +251,7 @@ const defaultKeybindings = {
       browserUI.addTab() // create a new, blank tab
     })
 
-    keybindings.defineShortcut('closeWindow', function() {
+    keybindings.defineShortcut('closeWindow', function () {
       ipc.invoke('close')
     })
 

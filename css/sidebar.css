@@ -43,8 +43,8 @@ body.mai-sidebar-open #webviews {
 }
 
 #mai-toggle-button {
-  background-image: url('../icons/mai.png');
-  background-size: 22px;
+  background-image: url("../icons/mai.png");
+  background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
   opacity: 0.8;

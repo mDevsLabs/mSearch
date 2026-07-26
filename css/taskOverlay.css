@@ -451,7 +451,8 @@ body.dark-mode #task-overlay {
   color: #0a84ff;
 }
 
-.tab-drop-placeholder, .task-drop-placeholder {
+.tab-drop-placeholder,
+.task-drop-placeholder {
   opacity: 0.25;
 }
 

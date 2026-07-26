@@ -1,5 +1,8 @@
 const webviews = require('webviews.js')
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 var navigationButtons = {
   tabsList: document.getElementById('tabs-inner'),
   container: document.getElementById('toolbar-navigation-buttons'),

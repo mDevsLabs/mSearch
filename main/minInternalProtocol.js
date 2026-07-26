@@ -10,7 +10,7 @@ protocol.registerSchemesAsPrivileged([
     privileges: {
       standard: true,
       secure: true,
-      supportFetchAPI: true,
+      supportFetchAPI: true
     }
   }
 ])

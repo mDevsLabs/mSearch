@@ -3,6 +3,9 @@ var settings = require('util/settings/settings.js')
 var ipc = window.ipc
 var l = window.l
 
+var tabs = window.tabs
+var tasks = window.tasks
+
 /* implements selecting webviews, switching between them, and creating new ones. */
 
 var placeholderImg = document.getElementById('webview-placeholder')
@@ -110,7 +113,7 @@ const webviews = {
   },
   events: [],
   IPCEvents: [],
-  hasViewForTab: function(tabId) {
+  hasViewForTab: function (tabId) {
     return tabId && tasks.getTaskContainingTab(tabId) && tasks.getTaskContainingTab(tabId).tabs.get(tabId).hasWebContents
   },
   bindEvent: function (event, fn) {
@@ -168,7 +171,7 @@ const webviews = {
 
       const viewMargins = webviews.viewMargins
 
-      let position = {
+      const position = {
         x: 0 + Math.round(viewMargins[3]),
         y: 0 + Math.round(viewMargins[0]) + navbarHeight,
         width: window.innerWidth - Math.round(viewMargins[1] + viewMargins[3]),
@@ -178,7 +181,7 @@ const webviews = {
       if (settings.get('enableSplitView') === true) {
         const secondId = webviews.getSecondTabId()
         if (secondId) {
-          let halfWidth = Math.round(position.width / 2)
+          const halfWidth = Math.round(position.width / 2)
           if (isSecond) {
             position.x += halfWidth
           }
@@ -197,7 +200,7 @@ const webviews = {
     const openTabs = currentTask.tabs.get()
     if (openTabs.length <= 1) return null
     const currentIndex = openTabs.findIndex(t => t.id === webviews.selectedId)
-    let secondTab = openTabs[currentIndex + 1] || openTabs[currentIndex - 1]
+    const secondTab = openTabs[currentIndex + 1] || openTabs[currentIndex - 1]
     return secondTab ? secondTab.id : null
   },
   add: function (tabId, existingViewId) {
@@ -285,7 +288,7 @@ const webviews = {
         hasWebContents: false
       })
     }
-    //we may be destroying a view for which the tab object no longer exists, so this message should be sent unconditionally
+    // we may be destroying a view for which the tab object no longer exists, so this message should be sent unconditionally
     ipc.send('destroyView', id)
 
     delete webviews.viewFullscreenMap[id]

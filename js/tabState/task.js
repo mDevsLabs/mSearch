@@ -125,8 +125,8 @@ class TaskList {
       window.tabs = this.get(id).tabs
       if (emit) {
         this.emit('task-selected', id)
-        if (tabs.getSelected()) {
-          this.emit('tab-selected', tabs.getSelected(), id)
+        if (window.tabs.getSelected()) {
+          this.emit('tab-selected', window.tabs.getSelected(), id)
         }
       }
     }
@@ -164,7 +164,7 @@ class TaskList {
 
   isCollapsed (id) {
     var task = this.get(id)
-    return task.collapsed || (task.collapsed === undefined && Date.now() - tasks.getLastActivity(task.id) > (7 * 24 * 60 * 60 * 1000))
+    return task.collapsed || (task.collapsed === undefined && Date.now() - this.getLastActivity(task.id) > (7 * 24 * 60 * 60 * 1000))
   }
 
   getLength () {
@@ -192,7 +192,7 @@ class TaskList {
   }
 
   static getRandomId () {
-    return Math.round(Math.random() * 100000000000000000)
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 15)
   }
 }
 

@@ -6,6 +6,8 @@ var keyboardNavigationHelper = require('util/keyboardNavigationHelper.js')
 var bookmarkStar = require('navbar/bookmarkStar.js')
 var contentBlockingToggle = require('navbar/contentBlockingToggle.js')
 
+var tabs = window.tabs
+
 const tabEditor = {
   container: document.getElementById('tab-editor'),
   input: document.getElementById('tab-editor-input'),

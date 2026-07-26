@@ -12,6 +12,8 @@ var urlParser = require('util/urlParser.js')
 
 var statistics = require('js/statistics.js')
 
+var tabs = window.tabs
+
 function parseTampermonkeyFeatures (content) {
   var parsedFeatures = {}
   var foundFeatures = false

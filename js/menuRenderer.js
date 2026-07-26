@@ -11,6 +11,8 @@ var tabEditor = require('navbar/tabEditor.js')
 var readerView = require('readerView.js')
 var taskOverlay = require('taskOverlay/taskOverlay.js')
 
+var tabs = window.tabs
+
 module.exports = {
   initialize: function () {
     ipc.on('zoomIn', function () {

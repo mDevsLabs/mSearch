@@ -10,6 +10,8 @@ const PasswordManagers = require('passwordManager/passwordManager.js')
 
 const remoteMenu = require('remoteMenuRenderer.js')
 
+var tabs = window.tabs
+
 const webviewMenu = {
   menuData: null,
   showMenu: function (data, extraData) { // data comes from a context-menu event
@@ -113,7 +115,6 @@ const webviewMenu = {
     var mediaURL = data.srcURL
 
     if (mediaURL && data.mediaType === 'image') {
-
       var imageActions = [
         {
           label: (mediaURL.length > 60) ? mediaURL.substring(0, 60) + '...' : mediaURL,
