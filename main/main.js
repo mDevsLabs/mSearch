@@ -102,13 +102,13 @@ function sendIPCToWindow (window, action, data) {
   if (window && getWindowWebContents(window).isLoadingMainFrame()) {
     // immediately after a did-finish-load event, isLoading can still be true,
     // so wait a bit to confirm that the page is really loading
-    setTimeout(function() {
+    setTimeout(function () {
       if (getWindowWebContents(window).isLoadingMainFrame()) {
         getWindowWebContents(window).once('did-finish-load', function () {
           getWindowWebContents(window).send(action, data || {})
         })
       } else {
-         getWindowWebContents(window).send(action, data || {})
+        getWindowWebContents(window).send(action, data || {})
       }
     }, 0)
   } else if (window) {
@@ -154,7 +154,7 @@ function handleCommandLineArguments (argv) {
 }
 
 function createWindow (customArgs = {}) {
-  var bounds;
+  var bounds
 
   try {
     var data = fs.readFileSync(path.join(userDataPath, 'windowBounds.json'), 'utf-8')
@@ -201,7 +201,7 @@ function createWindowWithBounds (bounds, customArgs) {
     icon: __dirname + '/icons/icon256.png',
     frame: settings.get('useSeparateTitlebar'),
     alwaysOnTop: settings.get('windowAlwaysOnTop'),
-    backgroundColor: '#fff', // the value of this is ignored, but setting it seems to work around https://github.com/electron/electron/issues/10559
+    backgroundColor: '#fff' // the value of this is ignored, but setting it seems to work around https://github.com/electron/electron/issues/10559
   })
 
   // windows and linux always use a menu button in the upper-left corner instead
@@ -239,16 +239,16 @@ function createWindowWithBounds (bounds, customArgs) {
 
   const winBounds = newWin.getContentBounds()
 
-  mainView.setBounds({x: 0, y: 0, width: winBounds.width, height: winBounds.height})
+  mainView.setBounds({ x: 0, y: 0, width: winBounds.width, height: winBounds.height })
   newWin.contentView.addChildView(mainView)
 
   // sometimes getContentBounds doesn't provide correct bounds until after the window has finished loading
   mainView.webContents.once('did-finish-load', function () {
     const winBounds = newWin.getContentBounds()
-    mainView.setBounds({x: 0, y: 0, width: winBounds.width, height: winBounds.height})
+    mainView.setBounds({ x: 0, y: 0, width: winBounds.width, height: winBounds.height })
   })
 
-  mainView.webContents.ipc.on('set-window-title', function(e, title) {
+  mainView.webContents.ipc.on('set-window-title', function (e, title) {
     newWin.title = title
   })
 
@@ -256,7 +256,7 @@ function createWindowWithBounds (bounds, customArgs) {
     // The result of getContentBounds doesn't update until the next tick
     setTimeout(function () {
       const winBounds = newWin.getContentBounds()
-      mainView.setBounds({x: 0, y: 0, width: winBounds.width, height: winBounds.height})
+      mainView.setBounds({ x: 0, y: 0, width: winBounds.width, height: winBounds.height })
     }, 0)
   })
 
@@ -287,7 +287,7 @@ function createWindowWithBounds (bounds, customArgs) {
   newWin.on('unmaximize', function () {
     sendIPCToWindow(newWin, 'unmaximize')
   })
-  
+
   newWin.on('focus', function () {
     sendIPCToWindow(newWin, 'focus')
   })
@@ -342,7 +342,7 @@ function createWindowWithBounds (bounds, customArgs) {
     }
   })
 
-  mainView.webContents.on('before-input-event', function(e, input) {
+  mainView.webContents.on('before-input-event', function (e, input) {
     sendIPCToWindow(newWin, 'before-input-event', input)
   })
 
@@ -399,7 +399,7 @@ app.on('open-url', function (e, url) {
 })
 
 // handoff support for macOS
-app.on('continue-activity', function(e, type, userInfo, details) {
+app.on('continue-activity', function (e, type, userInfo, details) {
   if (type === 'NSUserActivityTypeBrowsingWeb' && details.webpageURL) {
     e.preventDefault()
     sendIPCToWindow(windows.getCurrent(), 'addTab', {
@@ -445,7 +445,7 @@ ipc.on('showSecondaryMenu', function (event, data) {
   })
 })
 
-ipc.on('handoffUpdate', function(e, data) {
+ipc.on('handoffUpdate', function (e, data) {
   if (app.setUserActivity && data.url && data.url.startsWith('http')) {
     app.setUserActivity('NSUserActivityTypeBrowsingWeb', {}, data.url)
   } else if (app.invalidateCurrentActivity) {
@@ -457,13 +457,13 @@ ipc.on('quit', function () {
   app.quit()
 })
 
-ipc.on('tab-state-change', function(e, events) {
+ipc.on('tab-state-change', function (e, events) {
   const sourceWindowId = windows.windowFromContents(e.sender)?.id
   if (!sourceWindowId) {
     console.warn('warning: received tab state update from window after destruction, ignoring')
     return
   }
-  windows.getAll().forEach(function(window) {
+  windows.getAll().forEach(function (window) {
     if (getWindowWebContents(window).id !== e.sender.id) {
       getWindowWebContents(window).send('tab-state-change-receive', {
         sourceWindowId,
@@ -473,12 +473,12 @@ ipc.on('tab-state-change', function(e, events) {
   })
 })
 
-ipc.on('request-tab-state', function(e) {
+ipc.on('request-tab-state', function (e) {
   const otherWindow = windows.getAll().find(w => getWindowWebContents(w).id !== e.sender.id)
   if (!otherWindow) {
     throw new Error('secondary window doesn\'t exist as source for tab state')
   }
-  ipc.once('return-tab-state', function(e2, data) {
+  ipc.once('return-tab-state', function (e2, data) {
     e.returnValue = data
   })
   getWindowWebContents(otherWindow).send('read-tab-state')
@@ -489,7 +489,7 @@ ipc.on('request-tab-state', function(e) {
 const placesPage = 'file://' + __dirname + '/js/places/placesService.html'
 
 let placesWindow = null
-app.once('ready', function() {
+app.once('ready', function () {
   placesWindow = new BrowserWindow({
     width: 300,
     height: 300,
@@ -516,9 +516,9 @@ function getWindowWebContents (win) {
 const translatePage = 'msearch://app/pages/translateService/index.html'
 const translatePreload = __dirname + '/pages/translateService/translateServicePreload.js'
 
-app.on('ready', function() {
-  ipc.on('page-translation-session-create', function(e) {
-    let translateWindow = new BrowserWindow({
+app.on('ready', function () {
+  ipc.on('page-translation-session-create', function (e) {
+    const translateWindow = new BrowserWindow({
       width: 300,
       height: 300,
       show: false,
@@ -528,11 +528,11 @@ app.on('ready', function() {
         preload: translatePreload
       }
     })
-  
+
     translateWindow.loadURL(translatePage)
     // translateWindow.webContents.openDevTools({mode: 'detach'})
 
-    translateWindow.webContents.once('did-finish-load', function() {
+    translateWindow.webContents.once('did-finish-load', function () {
       translateWindow.webContents.postMessage('page-translation-session-create', null, e.ports)
     })
   })

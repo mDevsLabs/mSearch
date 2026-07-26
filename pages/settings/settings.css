@@ -6,15 +6,22 @@ html {
 }
 
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.25) 0%, transparent 25%),
-    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 25%);
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 25%
+    );
   pointer-events: none;
   z-index: -1;
   opacity: 0.5;
@@ -27,9 +34,16 @@ body::before {
 
 .dark-mode body::before,
 .dark-theme body::before {
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 25%),
-    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 25%);
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(255, 255, 255, 0.03) 0%,
+      transparent 25%
+    );
 }
 
 .settings-info-subheading {
@@ -74,7 +88,8 @@ body::before {
   border: 1px solid var(--glass-border-light);
   border-radius: var(--liquid-radius-lg);
   box-shadow: var(--glass-shadow-light), var(--glass-glow-light);
-  transition: transform 0.2s var(--liquid-easing), box-shadow 0.2s var(--liquid-easing);
+  transition: transform 0.2s var(--liquid-easing),
+    box-shadow 0.2s var(--liquid-easing);
   animation: settings-appear 0.4s var(--liquid-easing) forwards;
   transform: translateY(20px);
   opacity: 0;
@@ -265,7 +280,9 @@ input[type="radio"] {
 }
 
 .dark-mode #tracking-level-container .setting-option.selected:not(:first-child),
-.dark-theme #tracking-level-container .setting-option.selected:not(:first-child) {
+.dark-theme
+  #tracking-level-container
+  .setting-option.selected:not(:first-child) {
   background: var(--glass-bg-dark);
   border-color: var(--glass-border-dark);
   box-shadow: var(--glass-shadow-dark);
